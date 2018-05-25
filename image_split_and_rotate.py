@@ -23,22 +23,26 @@ def find_bound(img):
     window_width = 3
     w_bound = []
     h_bound = []
-    for i in range(w):
+    for i in range(w-window_width):
         if np.sum(img[i:i+window_width,:] > 0) > w * thread * window_width:
             w_bound.append(i + window_width / 2)
             break
-    for i in range(w-1,-1,-1):
+        w_bound.append(0)
+    for i in range(w-1,window_width,-1):
         if np.sum(img[i-window_width:i,:] > 0) > w * thread * window_width:
             w_bound.append(i -window_width / 2)
             break
-    for i in range(h):
+        w_bound.append(w-1)
+    for i in range(h-window_width):
         if np.sum(img[:,i:i+window_width] > 0) > h * thread * window_width:
             h_bound.append(i +window_width / 2)
             break
-    for i in range(h-1, -1, -1):
+        h_bound.append(0)
+    for i in range(h-1, window_width, -1):
         if np.sum(img[:,i-window_width:i] > 0) > h * thread * window_width:
             h_bound.append(i -window_width / 2)
             break
+        h_bound.append(h-1)
     return w_bound, h_bound
 
 def binary_image(image_orig):
