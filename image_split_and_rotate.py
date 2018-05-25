@@ -32,7 +32,7 @@ def find_bound(img):
             w_bound.append(i -window_width / 2)
             break
     for i in range(h):
-        if np.sum(img[:,i+window_width] > 0) > h * thread * window_width:
+        if np.sum(img[:,i:i+window_width] > 0) > h * thread * window_width:
             h_bound.append(i +window_width / 2)
             break
     for i in range(h-1, -1, -1):
