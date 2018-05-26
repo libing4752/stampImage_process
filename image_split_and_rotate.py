@@ -60,7 +60,7 @@ def find_bound(img):
 def binary_image(image_orig):
     w, h = image_orig.shape[:2]
     image = cv2.cvtColor(image_orig,cv2.COLOR_BGR2GRAY)
-    window_size = (min(11, int(2 * (w / 100) + 1)), min(11, int(2 * (h / 100) + 1)))
+    window_size = (min(11, (2 * int(w / 100) + 1)), min(11, (2 * int(h / 100) + 1)))
     var = int(sum(window_size) / 2)
     image = cv2.GaussianBlur(image, window_size, 3, var)
     sobelX = cv2.Sobel(image,cv2.CV_64F,1,0)
