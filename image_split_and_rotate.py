@@ -23,33 +23,45 @@ def find_bound(img):
     window_width = 3
     w_bound = []
     h_bound = []
+    changed = False
     for i in range(w-window_width):
         if np.sum(img[i:i+window_width,:] > 0) > w * thread * window_width:
             w_bound.append(i + window_width / 2)
+            changed = True
             break
+    if not changed:
         w_bound.append(0)
+    changed = False
     for i in range(w-1,window_width,-1):
         if np.sum(img[i-window_width:i,:] > 0) > w * thread * window_width:
             w_bound.append(i -window_width / 2)
+            changed = True
             break
+    if not changed:
         w_bound.append(w-1)
+    changed = False
     for i in range(h-window_width):
         if np.sum(img[:,i:i+window_width] > 0) > h * thread * window_width:
             h_bound.append(i +window_width / 2)
+            changed = True
             break
+    if not changed:
         h_bound.append(0)
+    changed = False
     for i in range(h-1, window_width, -1):
         if np.sum(img[:,i-window_width:i] > 0) > h * thread * window_width:
             h_bound.append(i -window_width / 2)
+            changed = True
             break
+    if not changed:
         h_bound.append(h-1)
     return w_bound, h_bound
 
 def binary_image(image_orig):
     w, h = image_orig.shape[:2]
     image = cv2.cvtColor(image_orig,cv2.COLOR_BGR2GRAY)
-    window_size = (min(11, (2 * (w / 100) + 1)), min(11, (2 * (h / 100) + 1)))
-    var = int(sum(window_size))
+    window_size = (min(11, int(2 * (w / 100) + 1)), min(11, int(2 * (h / 100) + 1)))
+    var = int(sum(window_size) / 2)
     image = cv2.GaussianBlur(image, window_size, 3, var)
     sobelX = cv2.Sobel(image,cv2.CV_64F,1,0)
     sobelY = cv2.Sobel(image,cv2.CV_64F,0,1)
