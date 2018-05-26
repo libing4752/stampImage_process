@@ -55,6 +55,8 @@ def find_bound(img):
             break
     if not changed:
         h_bound.append(h-1)
+    w_bound = [int(i) for i in w_bound]
+    h_bound = [int(i) for i in h_bound]
     return w_bound, h_bound
 
 def binary_image(image_orig):
